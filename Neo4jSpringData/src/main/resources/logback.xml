@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+	<!-- Send debug messages to System.out -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{YYYY-MM-dd.HH:mm:ss.SSS} %-5level %logger.%L:%M - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- This file appender is used to output aggregated performance statistics -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>runtimes.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>tests.%i.log.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="FILE" />
+	</appender>
+
+
+	<logger name="org.springframework.boot.logging.ClasspathLoggingApplicationListener" level="WARN" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<logger name="hu.kovacsa.szakdolgozat.rest.Neo4jSpringDataController"
+		additivity="false" level="info">
+		<appender-ref ref="ASYNC" />
+	</logger>
+
+	<!-- By default, the level of the root level is set to DEBUG -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

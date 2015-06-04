@@ -1,0 +1,4 @@
+#orientdb.url=plocal:/home/kovaron/.devtools/orientdb-community-2.0.6/databases/Szakdolgozat
+orientdb.url=plocal:/home/user/orientdb-community-2.0.6/databases/Szakdolgozat
+orientdb.user=admin
+orientdb.password=admin
